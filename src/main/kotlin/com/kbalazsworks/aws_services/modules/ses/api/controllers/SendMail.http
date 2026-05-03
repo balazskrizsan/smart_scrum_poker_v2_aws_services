@@ -1,0 +1,10 @@
+### Send Mail via SES
+POST http://localhost:8080/api/v1/ses/send
+Content-Type: application/json
+
+{
+  "to": "krizsan.balazs@gmail.com",
+  "subject": "Test Email",
+  "text": "This is a plain text email body.",
+  "html": "<h1>Test Email</h1><p>This is an HTML email body.</p>"
+}
