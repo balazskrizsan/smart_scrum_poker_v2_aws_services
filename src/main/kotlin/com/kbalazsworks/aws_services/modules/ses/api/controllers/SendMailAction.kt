@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/ses/send")
-class SendMailController(private val sendService: SendService) {
+class SendMailAction(private val sendService: SendService) {
     @PostMapping
     @PreAuthorize("hasAuthority(\"aws.ses\")")
     fun sendMail(@RequestBody request: SendMailRequest): ResponseEntity<ResponseData<String>> {
