@@ -1,4 +1,4 @@
-POST https://localhost:8080/api/v1/ses/send
+POST https://localhost.balazskrizsan.com:8080/api/v1/ses/send
 Content-Type: application/json
 Authorization: Bearer {{$auth.token("smart_scrum_poker_aws")}}
 Content-Type: application/json
