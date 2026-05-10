@@ -35,9 +35,9 @@ class SendService(private val amazonSESFactory: AmazonSESFactory) {
                 .build()
             val response = client.sendEmail(request)
 
-            logger.info("Message sent: " + response.messageId())
+            logger.info("AWS SES: Message sent: " + response.messageId())
         } catch (e: Exception) {
-            logger.error("E-mail sending error", e)
+            logger.error("AWS SES: E-mail sending error", e)
 
             throw SesSendException("E-mail sending error")
         }
