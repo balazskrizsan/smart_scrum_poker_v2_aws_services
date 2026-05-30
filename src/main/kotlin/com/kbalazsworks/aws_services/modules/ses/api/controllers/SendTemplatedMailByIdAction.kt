@@ -3,7 +3,7 @@ package com.kbalazsworks.aws_services.modules.ses.api.controllers
 import com.kbalazsworks.aws_services.modules.ses.api.builders.ResponseEntityBuilder
 import com.kbalazsworks.aws_services.modules.ses.api.value_objects.ResponseData
 import com.kbalazsworks.aws_services.modules.ses.domain.services.TemplatedMailService
-import com.kbalazsworks.aws_services.modules.ses.domain.value_objects.StringTemplateMail
+import com.kbalazsworks.aws_services.modules.ses.domain.value_objects.IdTemplateMail
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,30 +12,27 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1/ses/send-templated")
-class SendTemplatedMailAction(private val templatedMailService: TemplatedMailService) {
-
+@RequestMapping("/api/v1/ses/send-templated-by-id")
+class SendTemplatedMailByIdAction(
+    private val templatedMailService: TemplatedMailService
+) {
     @PostMapping
     @PreAuthorize("hasAuthority(\"aws.ses\")")
-    fun sendTemplatedMail(@RequestBody request: SendTemplatedMailRequest): ResponseEntity<ResponseData<String>> {
-        templatedMailService.sendTemplatedMail(mapRequest(request))
-
+    fun sendTemplatedMailById(@RequestBody request: SendTemplatedMailByIdRequest): ResponseEntity<ResponseData<String>> {
+        val mail = IdTemplateMail(
+            to = request.to,
+            subject = request.subject,
+            templateId = request.templateId,
+            templateVariables = request.templateVariables
+        )
+        templatedMailService.sendTemplatedMailById(mail)
         return ResponseEntityBuilder<String>().build()
     }
 
-    private fun mapRequest(request: SendTemplatedMailRequest) = StringTemplateMail(
-        request.to,
-        request.subject,
-        request.htmlTemplate,
-        request.textTemplate,
-        request.templateVariables
-    );
-
-    data class SendTemplatedMailRequest(
+    data class SendTemplatedMailByIdRequest(
         val to: String,
         val subject: String,
-        val htmlTemplate: String,
-        val textTemplate: String,
+        val templateId: String,
         val templateVariables: Map<String, String>
     )
 }

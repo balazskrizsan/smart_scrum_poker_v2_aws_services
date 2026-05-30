@@ -1,0 +1,4 @@
+Hello ##name##,
+
+Welcome to ##company##!
+This is a test email template loaded from resources.
