@@ -1,6 +1,5 @@
 package com.kbalazsworks.aws_services.test_services.service_factory
 
-import com.github.mustachejava.Mustache
 import com.kbalazsworks.aws_services.modules.ses.domain.factories.AmazonSESFactory
 import com.kbalazsworks.aws_services.modules.ses.domain.services.MustacheTemplateService
 import com.kbalazsworks.aws_services.modules.ses.domain.services.SendService
@@ -8,6 +7,7 @@ import com.kbalazsworks.aws_services.modules.ses.domain.services.TemplatedMailSe
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Service
+import software.amazon.awssdk.services.ses.SesClient
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
 import java.lang.reflect.InvocationTargetException
@@ -21,6 +21,7 @@ class ServiceFactory(
     private val sendService: SendService,
     private val resourceLoader: ResourceLoader,
     private val amazonSESFactory: AmazonSESFactory,
+    private val sesClient: SesClient,
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(ServiceFactory::class.java)

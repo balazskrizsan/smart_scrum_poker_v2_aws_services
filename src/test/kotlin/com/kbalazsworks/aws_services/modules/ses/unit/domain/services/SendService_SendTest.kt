@@ -17,10 +17,10 @@ class SendService_SendTest : AbstractTest() {
         val amazonSESFactoryMockBuilder = AmazonSESFactoryMockBuilder()
             .create()
             .verifySendEmail(expectedMail)
-        val amazonSESFactoryMock = amazonSESFactoryMockBuilder.build()
+        val sesClientMock = amazonSESFactoryMockBuilder.buildSesClient()
 
         // Act
-        val mocks = listOf(amazonSESFactoryMock)
+        val mocks = listOf(sesClientMock)
         createInstance(SendService::class.java, mocks).send(testedMail)
 
         // Assert

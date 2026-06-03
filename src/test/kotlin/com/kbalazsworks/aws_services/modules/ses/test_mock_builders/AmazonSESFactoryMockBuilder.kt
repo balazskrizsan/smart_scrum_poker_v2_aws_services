@@ -168,5 +168,7 @@ class AmazonSESFactoryMockBuilder(
 
     fun build() = mock
 
+    fun buildSesClient() = internalSesClientMock
+
     private data class EmailFields(val to: String, val subject: String, val html: String, val text: String)
 }
