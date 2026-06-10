@@ -1,37 +1,44 @@
-package com.kbalazsworks.aws_services.modules.common.services;
+package com.kbalazsworks.aws_services.modules.common.services
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 
 @Service
-public class ApplicationPropertiesService
-{
-    public static final String SPRING_APPLICATION_IS_PROD = "spring.application.isprod";
+class ApplicationPropertiesService {
+    @Value("\${spring.application.name}")
+    var springApplicationName: String? = null
 
-    @Value("${spring.application.name}")
-    public String springApplicationName;
+    @Value("\${" + SPRING_APPLICATION_IS_PROD + "}")
+    var springApplicationIsProd: Boolean = false
 
-    @Value("${" + SPRING_APPLICATION_IS_PROD + "}")
-    public boolean springApplicationIsProd;
+    @Value("\${server.ssl.enabled}")
+    var serverSslEnabled: Boolean = false
 
-    @Value("${server.ssl.enabled}")
-    public boolean serverSslEnabled;
+    @Value("\${server.ssl.key-store-type}")
+    var serverSslKeyStoreType: String? = null
 
-    @Value("${server.ssl.key-store-type}")
-    public String serverSslKeyStoreType;
+    @Value("\${server.ssl.key-store}")
+    var serverSslKeyStore: String? = null
 
-    @Value("${server.ssl.key-store}")
-    public String serverSslKeyStore;
+    @Value("\${server.ssl.key-store-password}")
+    var serverSslKeyStorePassword: String? = null
 
-    @Value("${server.ssl.key-store-password}")
-    public String serverSslKeyStorePassword;
+    @Value("\${spring.security.oauth2.resourceserver.opaque.introspection-uri}")
+    var oauth2IntrospectionUri: String? = null
 
-    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-uri}")
-    public String oauth2IntrospectionUri;
+    @Value("\${spring.security.oauth2.resourceserver.opaque.introspection-client-id}")
+    var oauth2IntrospectionClientId: String? = null
 
-    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-id}")
-    public String oauth2IntrospectionClientId;
+    @Value("\${spring.security.oauth2.resourceserver.opaque.introspection-client-secret}")
+    var oauth2IntrospectionClientSecret: String? = null
 
-    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-secret}")
-    public String oauth2IntrospectionClientSecret;
+    @Value("\${native.reflection-configuration-generator.enabled}")
+    private lateinit var nativeReflectionConfigurationGeneratorEnabledEnabled: String
+    val isNativeReflectionConfigurationGeneratorEnabledEnabled: Boolean by lazy {
+        nativeReflectionConfigurationGeneratorEnabledEnabled.toBoolean()
+    }
+
+    companion object {
+        const val SPRING_APPLICATION_IS_PROD: String = "spring.application.isprod"
+    }
 }
