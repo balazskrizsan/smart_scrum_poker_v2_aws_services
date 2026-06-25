@@ -1,4 +1,4 @@
-POST https://localhost.balazskrizsan.com:8080/api/v1/ses/send
+POST {{baseUrl}}/api/v1/ses/send
 Content-Type: application/json
 Authorization: Bearer {{$auth.token("smart_scrum_poker_aws")}}
 Content-Type: application/json
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 ###
 
-POST https://localhost.balazskrizsan.com:8080/api/v1/ses/send-templated
+POST {{baseUrl}}/api/v1/ses/send-templated
 Content-Type: application/json
 Authorization: Bearer {{$auth.token("smart_scrum_poker_aws")}}
 
@@ -29,7 +29,7 @@ Authorization: Bearer {{$auth.token("smart_scrum_poker_aws")}}
 
 ###
 
-POST https://localhost.balazskrizsan.com:8080/api/v1/ses/send-templated-by-id
+POST {{baseUrl}}/api/v1/ses/send-templated-by-id
 Content-Type: application/json
 Authorization: Bearer {{$auth.token("smart_scrum_poker_aws")}}
 
