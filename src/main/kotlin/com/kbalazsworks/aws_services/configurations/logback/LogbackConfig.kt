@@ -8,6 +8,7 @@ import ch.qos.logback.core.ConsoleAppender
 import com.kbalazsworks.aws_services.common.services.ApplicationPropertiesService
 import jakarta.annotation.PostConstruct
 import net.logstash.logback.appender.LogstashTcpSocketAppender
+import net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder
 import net.logstash.logback.encoder.LogstashEncoder
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -58,15 +59,22 @@ class LogbackConfig(
 
         this.context = context
 
-        val p = if (ap.logbackLogColorsEnabled) {
-            "%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
-        } else {
-            "%d [%thread] [env=%X{env}] [long_term=%X{long_term}] %-5level %logger{35} - %msg%n"
-        }
+//        val p = if (ap.logbackLogColorsEnabled) {
+//            "%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
+//        } else {
+//            "%d [%thread] [env=%X{env}] [long_term=%X{long_term}] %-5level %logger{35} - %msg%n"
+//        }
+//
+//        encoder = PatternLayoutEncoder().apply {
+//            this.context = context
+//            pattern = p
+//            charset = StandardCharsets.UTF_8
+//            start()
+//        }
 
         encoder = PatternLayoutEncoder().apply {
             this.context = context
-            pattern = p
+            pattern = """{"timestamp":"%d","thread":"%thread","env":"%X{env}","long_term":"%X{long_term}","level":"%-5level","logger":"%logger{35}","message":"%msg"}%n"""
             charset = StandardCharsets.UTF_8
             start()
         }
