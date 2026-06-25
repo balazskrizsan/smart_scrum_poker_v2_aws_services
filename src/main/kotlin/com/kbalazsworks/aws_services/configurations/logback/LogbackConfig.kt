@@ -60,7 +60,7 @@ class LogbackConfig(
 
         encoder = PatternLayoutEncoder().apply {
             this.context = context
-            pattern = "%highlight(%d [%thread]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
+            pattern = "\"%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n\""
             charset = StandardCharsets.UTF_8
             start()
         }
