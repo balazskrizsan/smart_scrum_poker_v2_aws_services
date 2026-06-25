@@ -11,8 +11,21 @@ class ApplicationPropertiesService {
     @Value("\${spring.application.env}")
     var springApplicationEnv: String? = null
 
-    var logbackLogstashEnabled: Boolean = false
-    var logbackLogstashFullHost: String = ""
+    @Value("\${logback.logstash.enabled}")
+    lateinit var logbackLogstashEnabledString: String
+    val logbackLogstashEnabled: Boolean by lazy {
+        logbackLogstashEnabledString.toBoolean()
+    }
+
+    @Value("\${logback.logstash.full-host}")
+    lateinit var logbackLogstashFullHost: String
+
+    @Value("\${logback.log-colors.enabled}")
+    lateinit var logbackLogColorsEnabledString: String
+    val logbackLogColorsEnabled: Boolean by lazy {
+        logbackLogColorsEnabledString.toBoolean()
+    }
+
 
     @Value("\${" + SPRING_APPLICATION_IS_PROD + "}")
     var springApplicationIsProd: Boolean = false

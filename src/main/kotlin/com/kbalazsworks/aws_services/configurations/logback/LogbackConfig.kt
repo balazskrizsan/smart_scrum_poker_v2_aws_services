@@ -58,9 +58,15 @@ class LogbackConfig(
 
         this.context = context
 
+        val p = if (ap.logbackLogColorsEnabled) {
+            "%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
+        } else {
+            "%d [%thread] [env=%X{env}] [long_term=%X{long_term}] %-5level %logger{35} - %msg%n"
+        }
+
         encoder = PatternLayoutEncoder().apply {
             this.context = context
-            pattern = "\"%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n\""
+            pattern = p
             charset = StandardCharsets.UTF_8
             start()
         }
@@ -72,7 +78,11 @@ class LogbackConfig(
         log.info("LogbackConfig logstash created")
 
         this.context = context
-        addDestination(ap.logbackLogstashFullHost)
+        try {
+            addDestination(ap.logbackLogstashFullHost)
+        } catch (e: Exception) {
+            log.error("Logstash connection error", e)
+        }
 
         encoder = LogstashEncoder()
         start()
