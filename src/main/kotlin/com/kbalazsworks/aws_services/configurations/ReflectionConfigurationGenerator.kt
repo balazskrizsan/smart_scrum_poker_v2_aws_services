@@ -1,8 +1,8 @@
-package com.kbalazsworks.elastic_fetcher_api.configurations
+package com.kbalazsworks.aws_services.configurations
 
 import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.core.spi.ContextAwareBase
-import com.kbalazsworks.aws_services.modules.common.services.ApplicationPropertiesService
+import com.kbalazsworks.aws_services.common.services.ApplicationPropertiesService
 import com.kbalazsworks.common.io_module.services.FileService
 import com.kbalazsworks.common.native_build_module.services.RuntimeHintsReflectionGenerator
 import com.kbalazsworks.common.templating_module.services.MustacheService

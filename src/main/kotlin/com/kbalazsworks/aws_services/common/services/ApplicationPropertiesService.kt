@@ -1,4 +1,4 @@
-package com.kbalazsworks.aws_services.modules.common.services
+package com.kbalazsworks.aws_services.common.services
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -7,6 +7,12 @@ import org.springframework.stereotype.Service
 class ApplicationPropertiesService {
     @Value("\${spring.application.name}")
     var springApplicationName: String? = null
+
+    @Value("\${spring.application.env}")
+    var springApplicationEnv: String? = null
+
+    var logbackLogstashEnabled: Boolean = false
+    var logbackLogstashFullHost: String = ""
 
     @Value("\${" + SPRING_APPLICATION_IS_PROD + "}")
     var springApplicationIsProd: Boolean = false

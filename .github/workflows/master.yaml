@@ -40,7 +40,7 @@ jobs:
 
       - name: Build
         env:
-          SERVER_ENV: DEV
+          SPRING_APPLICATION_ENV: BUILD
           SERVER_PORT: 9999
           AWS_ACCESS_KEY_ID: xxx
           AWS_REGION: xxx
@@ -49,6 +49,7 @@ jobs:
           SERVER_SSL_KEY_STORE: classpath:keystore/certificate.p12
           SERVER_SSL_KEY_STORE_PASSWORD: password
           OIDC_INTROSPECTION_URI: xxx
+          NATIVE_REFLECTION_CONFIGURATION_GENERATOR_ENABLED: false
         run: mvn native:compile -Pnative -Dspring.profiles.active=native
 
       - uses: scacap/action-surefire-report@v1

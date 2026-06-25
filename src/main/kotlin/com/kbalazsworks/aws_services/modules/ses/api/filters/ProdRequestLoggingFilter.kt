@@ -1,6 +1,6 @@
 package com.kbalazsworks.aws_services.modules.ses.api.filters
 
-import com.kbalazsworks.aws_services.modules.common.services.ApplicationPropertiesService.Companion.SPRING_APPLICATION_IS_PROD
+import com.kbalazsworks.aws_services.common.services.ApplicationPropertiesService.Companion.SPRING_APPLICATION_IS_PROD
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
