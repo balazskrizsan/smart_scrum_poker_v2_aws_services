@@ -2,7 +2,6 @@ package com.kbalazsworks.aws_services.configurations.logback
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.ConsoleAppender
 import com.kbalazsworks.aws_services.common.services.ApplicationPropertiesService
@@ -11,7 +10,6 @@ import net.logstash.logback.appender.LogstashTcpSocketAppender
 import net.logstash.logback.encoder.LogstashEncoder
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import java.nio.charset.StandardCharsets
 
 @Component
 class LogbackConfig(
@@ -57,27 +55,7 @@ class LogbackConfig(
         log.info("LogbackConfig console created")
 
         this.context = context
-
-//        val p = if (ap.logbackLogColorsEnabled) {
-//            "%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
-//        } else {
-//            "%d [%thread] [env=%X{env}] [long_term=%X{long_term}] %-5level %logger{35} - %msg%n"
-//        }
-//
-//        encoder = PatternLayoutEncoder().apply {
-//            this.context = context
-//            pattern = p
-//            charset = StandardCharsets.UTF_8
-//            start()
-//        }
-
-        encoder = PatternLayoutEncoder().apply {
-            this.context = context
-            pattern = """{"timestamp":"%d","thread":"%thread","env":"%X{env}","long_term":"%X{long_term}","level":"%-5level","logger":"%logger{35}","message":"%replace(%msg){'[\r\n]+', '\\n'}"}%n"""
-            charset = StandardCharsets.UTF_8
-            start()
-        }
-
+        encoder = getLogstashEncoder(context)
         start()
     }
 
@@ -91,7 +69,13 @@ class LogbackConfig(
             log.error("Logstash connection error", e)
         }
 
-        encoder = LogstashEncoder()
+        encoder = getLogstashEncoder(context)
+        start()
+    }
+
+    private fun getLogstashEncoder(context: LoggerContext) = LogstashEncoder().apply {
+        this.context = context
+        includeMdcKeyNames = listOf("env", "long_term")
         start()
     }
 }
