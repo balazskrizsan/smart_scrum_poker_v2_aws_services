@@ -56,21 +56,26 @@ class LogbackConfig(
     private fun getLoggingEventConsoleAppender(context: LoggerContext) = ConsoleAppender<ILoggingEvent?>().apply {
         log.info("LogbackConfig console created")
 
-        this.context = context
+        if (ap.logbackLogType.equals("TEXT") || ap.logbackLogType.equals("COLOR_TEXT")) {
+            val p = if (ap.logbackLogType.equals("COLOR_TEXT")) {
+                "%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
+            } else {
+                "%d [%thread] [env=%X{env}] [long_term=%X{long_term}] %-5level %logger{35} - %msg%n"
+            }
 
-        val p = if (ap.logbackLogColorsEnabled) {
-            "%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
-        } else {
-            "%d [%thread] [env=%X{env}] [long_term=%X{long_term}] %-5level %logger{35} - %msg%n"
-        }
+            encoder = PatternLayoutEncoder().apply {
+                this.context = context
+                pattern = p
+                charset = StandardCharsets.UTF_8
+                start()
+            }
 
-        encoder = PatternLayoutEncoder().apply {
-            this.context = context
-            pattern = p
-            charset = StandardCharsets.UTF_8
             start()
-        }
 
+            return@apply
+        }
+        this.context = context
+        encoder = getLogstashEncoder(context)
         start()
     }
 
@@ -80,11 +85,12 @@ class LogbackConfig(
         this.context = context
         try {
             addDestination(ap.logbackLogstashFullHost)
-            encoder = getLogstashEncoder(context)
-            start()
         } catch (e: Exception) {
             log.error("Logstash connection error", e)
         }
+
+        encoder = getLogstashEncoder(context)
+        start()
     }
 
     private fun getLogstashEncoder(context: LoggerContext) = LogstashEncoder().apply {

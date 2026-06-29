@@ -26,6 +26,8 @@ class ApplicationPropertiesService {
         logbackLogColorsEnabledString.toBoolean()
     }
 
+    @Value("\${logback.log-type}")
+    var logbackLogType: String = "JSON"
 
     @Value("\${" + SPRING_APPLICATION_IS_PROD + "}")
     var springApplicationIsProd: Boolean = false
