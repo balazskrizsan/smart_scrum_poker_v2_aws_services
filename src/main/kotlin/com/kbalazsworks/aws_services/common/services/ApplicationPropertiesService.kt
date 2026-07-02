@@ -20,12 +20,6 @@ class ApplicationPropertiesService {
     @Value("\${logback.logstash.full-host}")
     lateinit var logbackLogstashFullHost: String
 
-    @Value("\${logback.log-colors.enabled}")
-    lateinit var logbackLogColorsEnabledString: String
-    val logbackLogColorsEnabled: Boolean by lazy {
-        logbackLogColorsEnabledString.toBoolean()
-    }
-
     @Value("\${logback.log-type}")
     var logbackLogType: String = "JSON"
 

@@ -58,9 +58,9 @@ class LogbackConfig(
 
         if (ap.logbackLogType.equals("TEXT") || ap.logbackLogType.equals("COLOR_TEXT")) {
             val p = if (ap.logbackLogType.equals("COLOR_TEXT")) {
-                "%highlight(%d [%thread]) %green([env=%X{env}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
+                "%highlight(%d [%thread]) %green([env=%X{env}] [app=%X{app}] [long_term=%X{long_term}]) %highlight(%-5level) %cyan(%logger{35}) - %msg%n"
             } else {
-                "%d [%thread] [env=%X{env}] [long_term=%X{long_term}] %-5level %logger{35} - %msg%n"
+                "%d [%thread] [env=%X{env}] [app=%X{app}] [long_term=%X{long_term}] %-5level %logger{35} - %msg%n"
             }
 
             encoder = PatternLayoutEncoder().apply {
@@ -95,7 +95,7 @@ class LogbackConfig(
 
     private fun getLogstashEncoder(context: LoggerContext) = LogstashEncoder().apply {
         this.context = context
-        includeMdcKeyNames = listOf("env", "long_term")
+        includeMdcKeyNames = listOf("env", "long_term", "app")
         start()
     }
 }
